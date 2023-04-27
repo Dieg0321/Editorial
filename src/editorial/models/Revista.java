@@ -4,6 +4,9 @@
  */
 package editorial.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Diego
@@ -14,6 +17,7 @@ public class Revista extends Publicacion {
     private String periodicidad;
     private int numero;
     private int numeroPaginas;
+    private List<Tomo> listaVolumenes;
 
     public Revista(String ISSN, String periodicidad, int numero, int numeroPaginas, String titulo, String autor, double precio) {
         super(titulo, autor, precio);
@@ -21,6 +25,7 @@ public class Revista extends Publicacion {
         this.periodicidad = periodicidad;
         this.numero = numero;
         this.numeroPaginas = numeroPaginas;
+        listaVolumenes = new ArrayList<>();
     }
 
     public Revista() {
@@ -57,21 +62,21 @@ public class Revista extends Publicacion {
     public void setNumeroPaginas(int numeroPaginas) {
         this.numeroPaginas = numeroPaginas;
     }
-
-    public void setExtension(Object informacionExtension) {
-        numeroPaginas = ((Integer) informacionExtension);
-    }
-
-    @Override
-    public Object getExtension() {
-        return numeroPaginas;
-    }
-
-    @Override
+    
     public boolean agregarVolumen(Tomo tomo) {
         return this.listaVolumenes.add(tomo);
     }
 
+    public List<Tomo> getListaVolumenes() {
+        return listaVolumenes;
+    }
+
+    public void setListaVolumenes(List<Tomo> listaVolumenes) {
+        this.listaVolumenes = listaVolumenes;
+    }
+
+    
+    
     @Override
     public String toString() {
         return String.format(PropertiesLoader.loadProperties().getProperty("output.ISSN")

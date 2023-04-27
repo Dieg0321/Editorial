@@ -4,6 +4,7 @@
  */
 package editorial.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,6 +13,7 @@ import java.util.List;
  */
 public class Libro extends Publicacion {
 
+    private List<Tomo> listaVolumenes;
     private String ISBN;
 
     public Libro() {
@@ -20,7 +22,7 @@ public class Libro extends Publicacion {
     public Libro(String titulo, String autor, String ISBN, double precio) {
         super(titulo, autor, precio);
         this.ISBN = ISBN;
-
+        listaVolumenes = new ArrayList<>();
     }
 
     public String getISBN() {
@@ -31,27 +33,16 @@ public class Libro extends Publicacion {
         this.ISBN = ISBN;
     }
 
-    @Override
-    public void setExtension(Object informacionExtension) {
-        listaVolumenes = (List<Tomo>) informacionExtension;
-    }
-
-    @Override
-    public Object getExtension() {
-        return listaVolumenes;
-    }
-
     public int getNumeroVolumenes() {
         return listaVolumenes.size();
     }
 
-    public void agregarVolumen() {
-
+    public List<Tomo> getListaVolumenes() {
+        return listaVolumenes;
     }
 
-    @Override
-    public boolean agregarVolumen(Tomo tomo) {
-        return this.listaVolumenes.add(tomo);
+    public void setListaVolumenes(List<Tomo> listaVolumenes) {
+        this.listaVolumenes = listaVolumenes;
     }
 
     @Override

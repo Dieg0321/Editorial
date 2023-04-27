@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter;
  *
  * @author Diego
  */
-public class Articulo extends Publicacion{
+public class Articulo extends Publicacion {
 
     private String DOI;
     private LocalDate fechaPublicacion;
@@ -49,21 +49,6 @@ public class Articulo extends Publicacion{
     }
 
     @Override
-    protected void setExtension(Object informacionExtension) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    protected Object getExtension() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public boolean agregarVolumen(Tomo tomo) {
-        return this.listaVolumenes.add(tomo);
-    }
-
-    @Override
     public String toString() {
         return String.format(PropertiesLoader.loadProperties().getProperty("output.DOI")
                 + PropertiesLoader.loadProperties().getProperty("output.fecha_publicacion")
@@ -71,15 +56,12 @@ public class Articulo extends Publicacion{
                 + PropertiesLoader.loadProperties().getProperty("output.tipo")
                 + PropertiesLoader.loadProperties().getProperty("output.precio"),
                 getObjetoDatos());
-    }
-
-    
+    }    
     
     @Override
     public Object[] getObjetoDatos() {
         return new Object[]{getDOI(), getFechaPublicacion().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), getTitulo(),getAutor(), getTipoArticulo(), getPrecio()};
-    }
-    
-    
+    }   
+
     
 }

@@ -5,7 +5,6 @@
 package editorial.models;
 
 import java.time.LocalDate;
-import java.time.Period;
 
 /**
  *
@@ -67,22 +66,7 @@ public class Patente extends Publicacion {
     public void setDuracion(int duracion) {
         this.duracion = duracion;
     }
-
-    @Override
-    protected void setExtension(Object informacionExtension) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    protected Object getExtension() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public boolean agregarVolumen(Tomo tomo) {
-        return this.listaVolumenes.add(tomo);
-    }
-
+    
     @Override
     public String toString() {
         return String.format(PropertiesLoader.loadProperties().getProperty("output.CPAT")
