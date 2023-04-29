@@ -66,7 +66,7 @@ public class Vista {
     public LocalDate obtenerFecha(String mensaje, String mensajeError) {
         System.out.println(mensaje);
         try {
-            return LocalDate.parse(br.readLine(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            return LocalDate.parse(br.readLine(), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         } catch (DateTimeParseException | IOException ex) {
             System.err.println(mensajeError);
         }

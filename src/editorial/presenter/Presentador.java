@@ -128,11 +128,11 @@ public class Presentador {
         String autor = vista.obtenerString(properties.getProperty("input.autor"), properties.getProperty("error.no_valido"));
         String CPAT = vista.obtenerString(properties.getProperty("input.CPAT"), properties.getProperty("error.no_valido"));
         LocalDate fechaSolicitud = vista.obtenerFecha(properties.getProperty("input.fecha_solicitud"), properties.getProperty("error.no_valido"));
-        LocalDate fechaConcesion = vista.obtenerFecha(properties.getProperty("input.fecha_concesion"), properties.getProperty("error.no_valido"));
-        int duracion = vista.ObtenerInt(properties.getProperty("input.duracion"), properties.getProperty("error.no_valido"));
+        LocalDate fechaConcesion = validarFechaConcesion(fechaSolicitud);
+        int vigencia = vista.ObtenerInt(properties.getProperty("input.duracion"), properties.getProperty("error.no_valido"));
         String asignatario = vista.obtenerString(properties.getProperty("input.asignatario"), properties.getProperty("error.no_valido"));
         double precio = vista.ObtenerDouble(properties.getProperty("input.precio"), properties.getProperty("error.no_valido"));
-        return new Patente(CPAT, asignatario, fechaSolicitud, fechaConcesion, duracion, titulo, autor, precio);
+        return new Patente(CPAT, asignatario, fechaSolicitud, fechaConcesion, vigencia, titulo, autor, precio);
     }
 
     public void mostrarPublicaciones() {
@@ -166,6 +166,15 @@ public class Presentador {
         } else {
             vista.mostrarMensajeError(properties.getProperty("error.sin_publicacion"));
         }
+    }
+
+    public LocalDate validarFechaConcesion(LocalDate fechaSolicitud) {
+        LocalDate fechaConcesion = vista.obtenerFecha(properties.getProperty("input.fecha_concesion"), properties.getProperty("error.no_valido"));
+        while (fechaSolicitud.compareTo(fechaConcesion) >= 0) {
+            vista.mostrarMensajeError(properties.getProperty("error.fechaConcesion"));
+            fechaConcesion = vista.obtenerFecha(properties.getProperty("input.fecha_concesion"), properties.getProperty("error.no_valido"));
+        }
+        return fechaConcesion;
     }
 
     public static void main(String[] args) {
