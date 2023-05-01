@@ -1,5 +1,13 @@
+<<<<<<< HEAD
 target/
 test/
 build/
 nbproject/
+=======
+.gitignore
+test/
+build/
+nbproject/
+*.xml
+>>>>>>> origin/main
 *.mf
