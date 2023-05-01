@@ -6,6 +6,8 @@ package com.uptc.editorial.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -62,7 +64,7 @@ public class Revista extends Publicacion {
     public void setNumeroPaginas(int numeroPaginas) {
         this.numeroPaginas = numeroPaginas;
     }
-    
+
     public boolean agregarVolumen(Tomo tomo) {
         return this.listaVolumenes.add(tomo);
     }
@@ -75,15 +77,28 @@ public class Revista extends Publicacion {
         this.listaVolumenes = listaVolumenes;
     }
 
-    
-    
     @Override
     public String toString() {
         return String.format(PropertiesLoader.loadProperties().getProperty("output.ISSN")
                 + PropertiesLoader.loadProperties().getProperty("output.publicacion")
                 + PropertiesLoader.loadProperties().getProperty("output.revista")
                 + PropertiesLoader.loadProperties().getProperty("output.precio"),
-                 getObjetoDatos());
+                getObjetoDatos());
+    }
+
+    @Override
+    public JSONObject toJSON() {
+        JSONObject json = super.toJSON();
+        JSONArray jsonArray = new JSONArray();
+        json.put("ISSN", ISSN);
+        json.put("Periodicidad",periodicidad);
+        json.put("Numero",numero);
+        json.put("paginas",numeroPaginas);
+        for (Tomo vol : listaVolumenes) {
+            jsonArray.add(vol.toJSON());
+        }
+        json.put("Volumenes",jsonArray);
+        return json;
     }
 
     @Override

@@ -5,6 +5,7 @@
 package com.uptc.editorial.models;
 
 import java.time.LocalDate;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -16,15 +17,15 @@ public class Patente extends Publicacion {
     private String asignatario;
     private LocalDate fechaSolicitud;
     private LocalDate fechaConcesion;
-    private int duracion;
+    private int vigencia;
 
-    public Patente(String CPAT, String asignatario, LocalDate fechaSolicitud, LocalDate fechaConcesion, int duracion, String titulo, String autor, double precio) {
+    public Patente(String CPAT, String asignatario, LocalDate fechaSolicitud, LocalDate fechaConcesion, int vigencia, String titulo, String autor, double precio) {
         super(titulo, autor, precio);
         this.CPAT = CPAT;
         this.asignatario = asignatario;
         this.fechaSolicitud = fechaSolicitud;
         this.fechaConcesion = fechaConcesion;
-        this.duracion = duracion;
+        this.vigencia = vigencia;
     }
 
     public String getCPAT() {
@@ -60,13 +61,13 @@ public class Patente extends Publicacion {
     }
 
     public int getDuracion() {
-        return duracion;
+        return vigencia;
     }
 
     public void setDuracion(int duracion) {
-        this.duracion = duracion;
+        this.vigencia = duracion;
     }
-    
+
     @Override
     public String toString() {
         return String.format(PropertiesLoader.loadProperties().getProperty("output.CPAT")
@@ -78,8 +79,21 @@ public class Patente extends Publicacion {
     }
 
     @Override
-    public Object[] getObjetoDatos() {
-        return new Object[]{getCPAT(), getFechaSolicitud(), getFechaConcesion(), getTitulo(), getAutor(), getAsignatario(), getDuracion(), getPrecio()};
+    public JSONObject toJSON() {
+        JSONObject json = super.toJSON();
+        json.put("CPAT", CPAT);
+        json.put("Asignatario", asignatario);
+        json.put("Solicitud", fechaSolicitud.toString());
+        json.put("Concesion", fechaConcesion);
+        json.put("Vigencia", vigencia);
+        return json;
     }
 
-}
+        @Override
+        public Object[] getObjetoDatos
+        
+            () {
+        return new Object[]{getCPAT(), getFechaSolicitud(), getFechaConcesion(), getTitulo(), getAutor(), getAsignatario(), getDuracion(), getPrecio()};
+        }
+
+    }

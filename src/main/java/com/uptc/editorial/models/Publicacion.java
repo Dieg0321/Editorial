@@ -4,12 +4,13 @@
  */
 package com.uptc.editorial.models;
 
+import org.json.simple.JSONObject;
 /**
  *
  * @author Diego
  */
 public abstract class Publicacion {
-    
+
     private String titulo;
     private String autor;
     private double precio;
@@ -19,11 +20,11 @@ public abstract class Publicacion {
         this.autor = autor;
         this.precio = precio;
     }
-    
-    public Publicacion(){
-        
+
+    public Publicacion() {
+
     }
-    
+
     public String getTitulo() {
         return titulo;
     }
@@ -48,10 +49,20 @@ public abstract class Publicacion {
         this.precio = precio;
     }
 
-    public String getTipo(){
+    public String getTipo() {
         return getClass().getSimpleName();
     }
-    
+
     public abstract Object[] getObjetoDatos();
-    
+         
+
+    public JSONObject toJSON() {
+        JSONObject json = new JSONObject();
+        json.put("TipoPublicacion", this.getClass().getSimpleName());
+        json.put("Titulo", this.titulo);
+        json.put("Autor", this.autor);
+        json.put("Precio", this.precio);
+        return json;
+    }
+
 }

@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import org.json.simple.JSONValue;
 
 /**
  *
@@ -53,10 +54,13 @@ public class Presentador {
                 administrarMenuPrincipal();
         }
         biblioteca.agregarPublicacion(publicacion);
+        //biblioteca.agregarPublicacionJson(publicacion);
         administrarAgregarVolumen(publicacion);
+        JSONWriter.writeList(biblioteca.getPublicaciones());
         administrarMenuPrincipal();
     }
 
+    //Agrega volumenes al ArrayList de biblioteca
     public void administrarAgregarVolumen(Publicacion publicacion) {
         if (publicacion instanceof Libro || publicacion instanceof Revista) {
             String inputUsuario = vista.obtenerString(properties.getProperty("menu.volumen"), properties.getProperty("error.no_valido"));
@@ -66,8 +70,7 @@ public class Presentador {
                 for (int i = 0; i < cantidadVolumenes; i++) {
                     listaVolumenes.add(crearVolumen());
                 }
-                if (publicacion instanceof Libro) {
-                    Libro libro = (Libro) publicacion;
+                if (publicacion instanceof Libro libro) {
                     libro.setListaVolumenes(listaVolumenes);
                 } else {
                     Revista revista = (Revista) publicacion;

@@ -4,6 +4,8 @@
  */
 package com.uptc.editorial.models;
 
+import org.json.simple.JSONObject;
+
 /**
  *
  * @author Diego
@@ -45,6 +47,14 @@ public class Tomo {
 
     public void setNumeroPaginas(int NumeroPaginas) {
         this.numeroPaginas = NumeroPaginas;
+    }
+    
+    public JSONObject toJSON(){
+        JSONObject json = new JSONObject();
+        json.put("Numero", numeroVolumen);
+        json.put("Titulo", titulo);
+        json.put("Paginas", numeroPaginas);
+        return json;
     }
     
     public Object[] getObjetoDatos(){
