@@ -5,6 +5,7 @@
 package com.uptc.editorial.models;
 
 import org.json.simple.JSONObject;
+
 /**
  *
  * @author Diego
@@ -54,7 +55,6 @@ public abstract class Publicacion {
     }
 
     public abstract Object[] getObjetoDatos();
-         
 
     public JSONObject toJSON() {
         JSONObject json = new JSONObject();
@@ -63,6 +63,12 @@ public abstract class Publicacion {
         json.put("Autor", this.autor);
         json.put("Precio", this.precio);
         return json;
+    }
+
+    public void fromJson(JSONObject json) {
+        this.autor = json.get("Autor").toString();
+        this.titulo = json.get("Titulo").toString();
+        this.precio = Double.parseDouble(json.get("Precio").toString());
     }
 
 }

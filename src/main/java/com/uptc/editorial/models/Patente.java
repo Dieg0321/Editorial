@@ -5,6 +5,9 @@
 package com.uptc.editorial.models;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 /**
@@ -28,6 +31,9 @@ public class Patente extends Publicacion {
         this.vigencia = vigencia;
     }
 
+    public Patente(){   
+    }
+    
     public String getCPAT() {
         return CPAT;
     }
@@ -84,16 +90,24 @@ public class Patente extends Publicacion {
         json.put("CPAT", CPAT);
         json.put("Asignatario", asignatario);
         json.put("Solicitud", fechaSolicitud.toString());
-        json.put("Concesion", fechaConcesion);
+        json.put("Concesion", fechaConcesion.toString());
         json.put("Vigencia", vigencia);
         return json;
     }
-
-        @Override
-        public Object[] getObjetoDatos
-        
-            () {
-        return new Object[]{getCPAT(), getFechaSolicitud(), getFechaConcesion(), getTitulo(), getAutor(), getAsignatario(), getDuracion(), getPrecio()};
-        }
-
+    
+    @Override
+    public void fromJson(JSONObject json) {
+        super.fromJson(json);
+        this.CPAT = json.get("CPAT").toString();
+        this.asignatario = json.get("Asignatario").toString();
+        this.fechaSolicitud = LocalDate.parse(json.get("Solicitud").toString());
+        this.fechaConcesion = LocalDate.parse(json.get("Concesion").toString());
+        this.vigencia = Integer.parseInt(json.get("Vigencia").toString());
     }
+
+    @Override
+    public Object[] getObjetoDatos() {
+        return new Object[]{getCPAT(), getFechaSolicitud(), getFechaConcesion(), getTitulo(), getAutor(), getAsignatario(), getDuracion(), getPrecio()};
+    }
+
+}

@@ -7,7 +7,6 @@ package com.uptc.editorial.models;
 import java.util.ArrayList;
 import java.util.List;
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 /**
  *
@@ -49,6 +48,10 @@ public class Biblioteca {
     
     public List<Publicacion> getPublicaciones() {
         return publicaciones;
+    }
+
+    public void setPublicaciones(List<Publicacion> publicaciones) {
+        this.publicaciones = publicaciones;
     }
 
     public JSONArray getPublicacionesJson() {

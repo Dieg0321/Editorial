@@ -102,6 +102,24 @@ public class Revista extends Publicacion {
     }
 
     @Override
+    public void fromJson(JSONObject json) {
+        super.fromJson(json);
+        this.ISSN = json.get("ISSN").toString();
+        this.numero = Integer.parseInt(json.get("Numero").toString());
+        this.numeroPaginas = Integer.parseInt(json.get("Paginas").toString());
+        this.periodicidad = json.get("Periodicidad").toString();
+        JSONArray jsonArray = (JSONArray) json.get("Volumenes");
+        List<Tomo> volumenes = new ArrayList<>();
+        for (Object obj : jsonArray) {
+            JSONObject volJson = (JSONObject) obj;
+            Tomo volumen = new Tomo();
+            volumen.fromJson(volJson);
+            volumenes.add(volumen);
+        }
+        this.listaVolumenes = volumenes;
+    }
+    
+    @Override
     public Object[] getObjetoDatos() {
         return new Object[]{getISSN(), getTitulo(), getAutor(), getNumero(), getNumeroPaginas(), getPeriodicidad(), getPrecio()};
     }

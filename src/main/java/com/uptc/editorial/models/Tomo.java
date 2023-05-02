@@ -57,7 +57,16 @@ public class Tomo {
         return json;
     }
     
+    public void fromJson(JSONObject volJson) {
+        this.numeroVolumen = Byte.parseByte(volJson.get("Numero").toString());
+        this.numeroPaginas = Integer.parseInt(volJson.get("Paginas").toString());
+        this.titulo = volJson.get("Titulo").toString();
+    }
+    
+    
     public Object[] getObjetoDatos(){
         return new Object[]{getNumeroVolumen(), getTitulo(), getNumeroPaginas()};
     }
+
+  
 }

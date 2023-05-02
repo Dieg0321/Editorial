@@ -68,6 +68,21 @@ public class Libro extends Publicacion {
     }
 
     @Override
+    public void fromJson(JSONObject json) {
+        super.fromJson(json);
+        this.ISBN = json.get("ISBN").toString();
+        JSONArray jsonArray = (JSONArray) json.get("Volumenes");
+        List<Tomo> volumenes = new ArrayList<>();
+        for (Object obj : jsonArray) {
+            JSONObject volJson = (JSONObject) obj;
+            Tomo volumen = new Tomo();
+            volumen.fromJson(volJson);
+            volumenes.add(volumen);
+        }
+        this.listaVolumenes = volumenes;
+    }
+
+    @Override
     public Object[] getObjetoDatos() {
         return new Object[]{getISBN(), getTitulo(), getAutor(), getPrecio()};
     }
