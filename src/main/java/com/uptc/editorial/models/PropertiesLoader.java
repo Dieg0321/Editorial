@@ -5,7 +5,6 @@
 package com.uptc.editorial.models;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -16,7 +15,7 @@ import java.util.Properties;
  */
 public class PropertiesLoader {
 
-    public static final String PROPERTIES_FILE_NAME = "D:\\Progra_III\\Editorial\\src\\main\\java\\com\\uptc\\editorial\\resources\\MensajesConsola.properties";
+    public static final String PROPERTIES_FILE_NAME = "src\\resources\\MensajesConsola.properties";
 
     public static Properties loadProperties() {
         Properties properties = new Properties();

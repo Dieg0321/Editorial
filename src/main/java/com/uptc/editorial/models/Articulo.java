@@ -6,6 +6,7 @@ package com.uptc.editorial.models;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -17,11 +18,14 @@ public class Articulo extends Publicacion {
     private LocalDate fechaPublicacion;
     private String tipo;
 
-    public Articulo(String DOI, String titulo, String autor, double precio,LocalDate fechaPublicacion, String tipo) {
+    public Articulo(String DOI, String titulo, String autor, double precio, LocalDate fechaPublicacion, String tipo) {
         super(titulo, autor, precio);
         this.DOI = DOI;
         this.fechaPublicacion = fechaPublicacion;
         this.tipo = tipo;
+    }
+    
+    public Articulo(){
     }
 
     public String getDOI() {
@@ -56,12 +60,28 @@ public class Articulo extends Publicacion {
                 + PropertiesLoader.loadProperties().getProperty("output.tipo")
                 + PropertiesLoader.loadProperties().getProperty("output.precio"),
                 getObjetoDatos());
-    }    
-    
+    }
+
+    @Override
+    public JSONObject toJSON() {
+        JSONObject json = super.toJSON();
+        json.put("DOI", DOI);
+        json.put("Publicacion", fechaPublicacion.toString());
+        json.put("Tipo", tipo);
+        return json;
+    }
+
+    @Override
+    public void fromJson(JSONObject volJson) {
+        super.fromJson(volJson);
+        this.DOI = volJson.get("DOI").toString();
+        this.fechaPublicacion = LocalDate.parse(volJson.get("Publicacion").toString());
+        this.tipo = volJson.get("Tipo").toString();
+    }
+
     @Override
     public Object[] getObjetoDatos() {
-        return new Object[]{getDOI(), getFechaPublicacion().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), getTitulo(),getAutor(), getTipoArticulo(), getPrecio()};
-    }   
+        return new Object[]{getDOI(), getFechaPublicacion().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), getTitulo(), getAutor(), getTipoArticulo(), getPrecio()};
+    }
 
-    
 }

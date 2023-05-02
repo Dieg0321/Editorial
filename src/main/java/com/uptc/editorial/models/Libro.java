@@ -6,6 +6,8 @@ package com.uptc.editorial.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -13,8 +15,8 @@ import java.util.List;
  */
 public class Libro extends Publicacion {
 
-    private List<Tomo> listaVolumenes;
     private String ISBN;
+    private List<Tomo> listaVolumenes;
 
     public Libro() {
     }
@@ -50,7 +52,34 @@ public class Libro extends Publicacion {
         return String.format(PropertiesLoader.loadProperties().getProperty("output.ISBN")
                 + PropertiesLoader.loadProperties().getProperty("output.publicacion")
                 + PropertiesLoader.loadProperties().getProperty("output.precio"),
-                 getObjetoDatos());
+                getObjetoDatos());
+    }
+
+    @Override
+    public JSONObject toJSON() {
+        JSONObject json = super.toJSON();
+        JSONArray jsonArray = new JSONArray();
+        json.put("ISBN", ISBN);
+        for (Tomo vol : listaVolumenes) {
+            jsonArray.add(vol.toJSON());
+        }
+        json.put("Volumenes", jsonArray);
+        return json;
+    }
+
+    @Override
+    public void fromJson(JSONObject json) {
+        super.fromJson(json);
+        this.ISBN = json.get("ISBN").toString();
+        JSONArray jsonArray = (JSONArray) json.get("Volumenes");
+        List<Tomo> volumenes = new ArrayList<>();
+        for (Object obj : jsonArray) {
+            JSONObject volJson = (JSONObject) obj;
+            Tomo volumen = new Tomo();
+            volumen.fromJson(volJson);
+            volumenes.add(volumen);
+        }
+        this.listaVolumenes = volumenes;
     }
 
     @Override

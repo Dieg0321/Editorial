@@ -25,6 +25,7 @@ public class Presentador {
         vista = new Vista();
         biblioteca = new Biblioteca();
         properties = PropertiesLoader.loadProperties(); //Carga los mensajes para mostrar por consola
+        biblioteca.setPublicacionesJson(JSONReader.readJsonArray());
     }
 
     public void administrarMenuPrincipal() {
@@ -44,6 +45,7 @@ public class Presentador {
                 publicacion = crearPatente();
                 break;
             case 5:
+                biblioteca.setPublicaciones(JSONReader.readJson());
                 mostrarPublicaciones();
                 administrarMenuPrincipal();
             case 0:
@@ -52,31 +54,28 @@ public class Presentador {
                 vista.mostrarMensajeError(properties.getProperty("error.no_valido"));
                 administrarMenuPrincipal();
         }
-        biblioteca.agregarPublicacion(publicacion);
-        administrarAgregarVolumen(publicacion);
+        //biblioteca.agregarPublicacion(publicacion);
+        biblioteca.agregarPublicacionJson(publicacion);
+        JSONWriter.writeJsonList(biblioteca.getPublicacionesJson());
         administrarMenuPrincipal();
     }
 
-    public void administrarAgregarVolumen(Publicacion publicacion) {
-        if (publicacion instanceof Libro || publicacion instanceof Revista) {
-            String inputUsuario = vista.obtenerString(properties.getProperty("menu.volumen"), properties.getProperty("error.no_valido"));
-            if (inputUsuario.equalsIgnoreCase("s") || inputUsuario.equalsIgnoreCase("si")) {
-                int cantidadVolumenes = vista.ObtenerInt(properties.getProperty("input.cantidad_volumen"), properties.getProperty("error.no_valido"));
-                List<Tomo> listaVolumenes = new ArrayList<>();
-                for (int i = 0; i < cantidadVolumenes; i++) {
-                    listaVolumenes.add(crearVolumen());
-                }
-                if (publicacion instanceof Libro) {
-                    Libro libro = (Libro) publicacion;
-                    libro.setListaVolumenes(listaVolumenes);
-                } else {
-                    Revista revista = (Revista) publicacion;
-                    revista.setListaVolumenes(listaVolumenes);
-                }
-            } else if (!inputUsuario.equalsIgnoreCase("n") && !inputUsuario.equalsIgnoreCase("no")) {
-                vista.mostrarMensajeError(properties.getProperty("error.no_valido"));
-                administrarAgregarVolumen(publicacion);
+    private void administrarAgregarVolumen(Publicacion publicacion) {
+        String inputUsuario = vista.obtenerString(properties.getProperty("menu.volumen"), properties.getProperty("error.no_valido"));
+        if (inputUsuario.equalsIgnoreCase("s") || inputUsuario.equalsIgnoreCase("si")) {
+            int cantidadVolumenes = vista.ObtenerInt(properties.getProperty("input.cantidad_volumen"), properties.getProperty("error.no_valido"));
+            List<Tomo> listaVolumenes = new ArrayList<>();
+            for (int i = 0; i < cantidadVolumenes; i++) {
+                listaVolumenes.add(crearVolumen());
             }
+            if (publicacion instanceof Libro libro) {
+                libro.setListaVolumenes(listaVolumenes);
+            } else if(publicacion instanceof Revista revista){
+                revista.setListaVolumenes(listaVolumenes);
+            }
+        } else if (!inputUsuario.equalsIgnoreCase("n") && !inputUsuario.equalsIgnoreCase("no")) {
+            vista.mostrarMensajeError(properties.getProperty("error.no_valido"));
+            administrarAgregarVolumen(publicacion);
         }
     }
 
@@ -92,7 +91,9 @@ public class Presentador {
         String autor = vista.obtenerString(properties.getProperty("input.autor"), properties.getProperty("error.no_valido"));
         String ISBN = vista.obtenerString(properties.getProperty("input.ISBN"), properties.getProperty("error.no_valido"));
         double precio = vista.ObtenerDouble(properties.getProperty("input.precio"), properties.getProperty("error.no_valido"));
-        return new Libro(titulo, autor, ISBN, precio);
+        Libro libro = new Libro(titulo, autor, ISBN, precio);
+        administrarAgregarVolumen(libro);
+        return libro;
     }
 
     private Revista crearRevista() {
@@ -103,7 +104,9 @@ public class Presentador {
         int numeroPaginas = vista.ObtenerInt(properties.getProperty("input.numero_paginas"), properties.getProperty("error.no_valido"));
         String periodicidad = vista.obtenerString(properties.getProperty("input.periodicidad"), properties.getProperty("error.no_valido"));
         double precio = vista.ObtenerDouble(properties.getProperty("input.precio"), properties.getProperty("error.no_valido"));
-        return new Revista(ISSN, periodicidad, numero, numeroPaginas, titulo, autor, precio);
+        Revista revista = new Revista(ISSN, periodicidad, numero, numeroPaginas, titulo, autor, precio);
+        administrarAgregarVolumen(revista);
+        return revista;
     }
 
     private Articulo crearArticulo() {
@@ -137,8 +140,8 @@ public class Presentador {
 
                 if (publicacion instanceof Libro || publicacion instanceof Revista) {
                     List<Tomo> volumenes;
-                    if (publicacion instanceof Libro) {
-                        volumenes = ((Libro) publicacion).getListaVolumenes();
+                    if (publicacion instanceof Libro libro) {
+                        volumenes = libro.getListaVolumenes();
 
                     } else {
                         volumenes = ((Revista) publicacion).getListaVolumenes();
