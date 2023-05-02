@@ -27,11 +27,9 @@ public class JSONReader {
         try (FileReader reader = new FileReader("publicaciones.json")) {
             publicaciones = (JSONArray) jsonParser.parse(reader);
         } catch (FileNotFoundException e) {
-            System.out.println("No esta");
-        } catch (IOException e) {
-            System.out.println("error lectura");
-        } catch (ParseException ex) {
-            System.out.println("error parseo");
+            
+        } catch (IOException | ParseException e) {
+            
         }
         return publicaciones;
     }

@@ -17,9 +17,8 @@ public class JSONWriter {
 
     public static void write(String publicacion) {
         try (FileWriter file = new FileWriter("publicaciones.json")) {
-            //try (FileWriter file = new FileWriter("D:\\archivos_creados_Java\\personas.json")) {
-            file.write(publicacion); // para convertir a String en json
-            file.flush();// para que escriba o cierre el archivo json en este caso
+            file.write(publicacion); 
+            file.flush();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -33,10 +32,8 @@ public class JSONWriter {
         }
 
         try (FileWriter file = new FileWriter("publicaciones.json")) {
-            //try (FileWriter file = new FileWriter("D:\\archivos_creados_Java\\personas.json")) {
-            file.write(publicaciones.toJSONString()); // para convertir a String en json
-            file.flush();// para que escriba o cierre el archivo json en este caso
-
+            file.write(publicaciones.toJSONString()); 
+            file.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -44,9 +41,9 @@ public class JSONWriter {
     
     public static void writeJsonList(JSONArray publicaciones){
         try (FileWriter file = new FileWriter("publicaciones.json")) {
-            //try (FileWriter file = new FileWriter("D:\\archivos_creados_Java\\personas.json")) {
-            file.write(publicaciones.toJSONString()); // para convertir a String en json
-            file.flush();// para que escriba o cierre el archivo json en este caso
+            
+            file.write(publicaciones.toJSONString());
+            file.flush();
 
         } catch (IOException e) {
             e.printStackTrace();

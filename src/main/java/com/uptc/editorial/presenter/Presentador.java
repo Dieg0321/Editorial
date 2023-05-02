@@ -10,7 +10,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import org.json.simple.JSONValue;
 
 /**
  *
@@ -26,6 +25,7 @@ public class Presentador {
         vista = new Vista();
         biblioteca = new Biblioteca();
         properties = PropertiesLoader.loadProperties(); //Carga los mensajes para mostrar por consola
+        biblioteca.setPublicacionesJson(JSONReader.readJsonArray());
     }
 
     public void administrarMenuPrincipal() {

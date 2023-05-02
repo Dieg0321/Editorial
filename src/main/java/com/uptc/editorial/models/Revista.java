@@ -93,7 +93,7 @@ public class Revista extends Publicacion {
         json.put("ISSN", ISSN);
         json.put("Periodicidad",periodicidad);
         json.put("Numero",numero);
-        json.put("paginas",numeroPaginas);
+        json.put("Paginas",numeroPaginas);
         for (Tomo vol : listaVolumenes) {
             jsonArray.add(vol.toJSON());
         }
